@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "DD152901-BD13-4835-9D9A-79EE9E0DF37F",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "MyMacro2Tests",
+        "name" : "MyMacro2Tests"
+      }
+    }
+  ],
+  "version" : 1
+}
