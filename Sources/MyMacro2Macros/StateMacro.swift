@@ -12,12 +12,8 @@ public struct StateMacro {
 
 }
 
-extension StateMacro: ConformanceMacro {
-  public static func expansion(
-    of node: SwiftSyntax.AttributeSyntax,
-    providingConformancesOf declaration: some SwiftSyntax.DeclGroupSyntax,
-    in context: some SwiftSyntaxMacros.MacroExpansionContext
-  ) throws -> [(SwiftSyntax.TypeSyntax, SwiftSyntax.GenericWhereClauseSyntax?)] {
+extension StateMacro: ExtensionMacro {
+  public static func expansion(of node: SwiftSyntax.AttributeSyntax, attachedTo declaration: some SwiftSyntax.DeclGroupSyntax, providingExtensionsOf type: some SwiftSyntax.TypeSyntaxProtocol, conformingTo protocols: [SwiftSyntax.TypeSyntax], in context: some SwiftSyntaxMacros.MacroExpansionContext) throws -> [SwiftSyntax.ExtensionDeclSyntax] {
 
     // Decode the expansion arguments.
     guard let structDecl = declaration.as(StructDeclSyntax.self) else {
@@ -26,16 +22,26 @@ extension StateMacro: ConformanceMacro {
     }
 
     if let inheritedTypes = structDecl.inheritanceClause?.inheritedTypeCollection,
-      inheritedTypes.contains(where: { inherited in
-        inherited.typeName.trimmedDescription == "StateType"
-      })
+       inheritedTypes.contains(where: { inherited in
+         inherited.typeName.trimmedDescription == "StateType"
+       })
     {
       return []
     }
 
-    return [("StateType", nil)]
+    let stateTypeExtension: DeclSyntax =
+      """
+      extension \(type.trimmed): StateType {}
+      """
+
+    guard let extensionDecl = stateTypeExtension.as(ExtensionDeclSyntax.self) else {
+      return []
+    }
+    
+    return [extensionDecl]
 
   }
+
 }
 
 extension StateMacro: MemberAttributeMacro {

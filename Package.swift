@@ -23,8 +23,6 @@ let package = Package(
     .package(
       url: "https://github.com/apple/swift-syntax.git",
       from: "509.0.0-swift-5.9-DEVELOPMENT-SNAPSHOT-2023-04-25-b"
-//      .revision("swift-5.9-DEVELOPMENT-SNAPSHOT-2023-07-09-a")
-//      exact: "509.0.0-swift-DEVELOPMENT-SNAPSHOT-2023-05-20-a"
     )
   ],
   targets: [
@@ -49,7 +47,7 @@ let package = Package(
     .testTarget(
       name: "MyMacro2Tests",
       dependencies: [
-        "MyMacro2Macros",
+        "MyMacro2",
         .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
       ]
     ),
