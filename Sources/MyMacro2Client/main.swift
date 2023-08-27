@@ -6,7 +6,7 @@ public protocol StateType {
 }
 
 @attached(memberAttribute)
-@attached(extension, conformances: StateType)
+@attached(extension, conformances: StateType, names: arbitrary)
 @attached(member, names: arbitrary)
 public macro State() = #externalMacro(module: "MyMacro2Macros", type: "StateMacro")
 
@@ -23,13 +23,15 @@ public func withObservingChanges<State: StateType>(
 @State
 struct MyState {
 
+  var age: Int
+
   var name: String = ""
 }
 
-let my = MyState()
+let my = MyState(_$age: 0)
 
 let new = withObservingChanges(my) { state in
-  state.name = "hello"
+//  state.name = "hello"
 }
 
 print(new.name, new.modifiedIdentifiers)

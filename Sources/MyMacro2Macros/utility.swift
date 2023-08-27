@@ -2,7 +2,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 
 func isComputedProperty(from node: VariableDeclSyntax) -> Bool {
-  if node.bindingKeyword == "let" {
+  if node.bindingSpecifier == "let" {
     return false
   }
 
@@ -12,7 +12,7 @@ func isComputedProperty(from node: VariableDeclSyntax) -> Bool {
     return false
   }
 
-  if node.bindings.first?.accessor == nil {
+  if node.bindings.first?.accessorBlock == nil {
     return false
   }
 
